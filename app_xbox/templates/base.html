@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xbox Store | {% block title %}Inicio{% endblock %}</title>
+    <!-- Bootstrap CSS (Diseño Estilo Xbox) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        /* Paleta de colores Xbox */
+        body { background-color: #f2f2f2; color: #333; }
+        .bg-xbox { background-color: #107C10 !important; } /* Verde Xbox */
+        .btn-xbox { background-color: #107C10; color: white; border: none; }
+        .btn-xbox:hover { background-color: #0b5c0b; color: white; }
+        .navbar-dark .navbar-nav .nav-link { color: white; }
+        .footer { background-color: #202020; color: white; margin-top: 50px; padding: 20px 0; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR (Navegación Intuitiva - Requisito Rúbrica) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'inicio' %}">
+                <i class="bi bi-xbox text-success"></i> XBOX STORE
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'inicio' %}">Inicio</a></li>
+                    <!-- Estos enlaces los activaremos en el siguiente paso -->
+<li class="nav-item"><a class="nav-link" href="{% url 'lista_videojuegos' %}">Juegos</a></li>
+<li class="nav-item"><a class="nav-link" href="{% url 'lista_consolas' %}">Consolas</a></li>
+<li class="nav-item"><a class="nav-link" href="{% url 'lista_accesorios' %}">Accesorios</a></li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    <!-- Carrito -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ver_carrito' %}">
+                            <i class="bi bi-cart3"></i> Carrito
+                        </a>
+                    </li>
+
+                    <!-- Lógica de Sesión (Requisito Rúbrica) -->
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                {% if user.is_staff %}
+                                    <li><a class="dropdown-item" href="/admin" target="_blank">Panel Admin</a></li>
+                                {% endif %}
+                                <li><a class="dropdown-item" href="{% url 'mis_pedidos' %}">Mis Pedidos</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item text-danger">Cerrar Sesión</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="btn btn-sm btn-outline-success ms-2" href="{% url 'registro' %}">Registro</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container mt-4" style="min-height: 60vh;">
+        <!-- Aquí se mostrarán los mensajes de confirmación (ej: "Producto agregado") -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        <!-- Aquí va el contenido de cada página -->
+        {% endblock %}
+    </div>
+
+    <!-- FOOTER (Requisito Rúbrica) -->
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Construye Aplicaciones Web</h5>
+                    <p>Submódulo: Desarrollo de Aplicaciones Web con Django</p>
+                </div>
+                <div class="col-md-6">
+                    <!-- PON TU NOMBRE AQUÍ -->
+                    <h5>Alumno: TU NOMBRE AQUI</h5>
+                    <p>Grupo: TU GRUPO</p>
+                </div>
+            </div>
+            <hr>
+            <p class="small">&copy; 2024 Xbox Store Project. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

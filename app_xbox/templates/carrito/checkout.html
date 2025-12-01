@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Finalizar Compra{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row g-5">
+        <!-- Resumen Lateral -->
+        <div class="col-md-5 col-lg-4 order-md-last">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-success">Tu Pedido</span>
+                <span class="badge bg-success rounded-pill">{{ pedido.items.count }} items</span>
+            </h4>
+            <ul class="list-group mb-3 shadow-sm">
+                {% for item in pedido.items.all %}
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">{{ item.producto.nombre }}</h6>
+                        <small class="text-muted">Cant: {{ item.cantidad }}</small>
+                    </div>
+                    <span class="text-muted">${{ item.subtotal }}</span>
+                </li>
+                {% endfor %}
+                <li class="list-group-item d-flex justify-content-between bg-light">
+                    <span>Total (MXN)</span>
+                    <strong>${{ pedido.total }}</strong>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Formulario de Pago -->
+        <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">Dirección de Envío</h4>
+            <form method="POST" class="needs-validation">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">Dirección Completa</label>
+                        <input type="text" class="form-control" name="direccion" placeholder="Calle, Número, Colonia..." required>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <h4 class="mb-3">Método de Pago</h4>
+                <div class="my-3">
+                    <div class="form-check">
+                        <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
+                        <label class="form-check-label" for="credit">Tarjeta de Crédito / Débito</label>
+                    </div>
+                    <div class="form-check">
+                        <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
+                        <label class="form-check-label" for="paypal">PayPal</label>
+                    </div>
+                </div>
+
+                <div class="row gy-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre en la tarjeta</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Número de tarjeta</label>
+                        <input type="text" class="form-control" placeholder="0000 0000 0000 0000" required>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+                <button class="w-100 btn btn-xbox btn-lg" type="submit">Pagar y Confirmar Pedido</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

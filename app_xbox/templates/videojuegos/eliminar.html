@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center" style="margin-top: 100px;">
+    <div class="col-md-6">
+        <div class="alert alert-danger shadow">
+            <h4 class="alert-heading"><i class="bi bi-exclamation-triangle"></i> ¿Estás seguro?</h4>
+            <p>Estás a punto de eliminar el videojuego: <strong>{{ juego.nombre }}</strong>.</p>
+            <hr>
+            <p class="mb-0">Esta acción no se puede deshacer y el producto desaparecerá de la tienda.</p>
+            
+            <form method="POST" class="mt-4 text-end">
+                {% csrf_token %}
+                <a href="{% url 'lista_videojuegos' %}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

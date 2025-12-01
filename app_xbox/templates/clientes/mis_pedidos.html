@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Mis Pedidos{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Mis Compras</h2>
+
+{% if pedidos %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="bg-dark text-white">
+            <tr>
+                <th># Pedido</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Detalles</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.fecha_pedido|date:"d/m/Y" }}</td>
+                <td>${{ pedido.total }}</td>
+                <td><span class="badge bg-success">{{ pedido.estado|title }}</span></td>
+                <td>
+                    <ul class="list-unstyled small mb-0">
+                        {% for item in pedido.items.all %}
+                        <li>{{ item.cantidad }}x {{ item.producto.nombre }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">Aún no has realizado compras.</div>
+{% endif %}
+{% endblock %}

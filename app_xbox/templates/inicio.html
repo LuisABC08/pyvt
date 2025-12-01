@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Hero Section (Banner gigante) -->
+<div class="p-5 mb-4 bg-dark text-white rounded-3 shadow" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://assets.xboxservices.com/assets/5c/58/5c5836a0-4a3b-4824-8a47-f277a06a3501.jpg?n=Xbox-Series-S_Page-Hero-0_767x431.jpg'); background-size: cover;">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Power Your Dreams</h1>
+        <p class="col-md-8 fs-4">Descubre la nueva generación de juegos y entretenimiento con Xbox.</p>
+        <button class="btn btn-xbox btn-lg" type="button">Ver Catálogo</button>
+    </div>
+</div>
+
+<h2 class="mb-4 border-bottom pb-2">Novedades Destacadas</h2>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- Loop para mostrar Consolas que agregaste en el Admin -->
+    {% for consola in consolas %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            {% if consola.imagen %}
+                <img src="{{ consola.imagen.url }}" class="card-img-top" alt="{{ consola.nombre }}" style="height: 200px; object-fit: contain; padding: 10px;">
+            {% else %}
+                <div class="d-flex align-items-center justify-content-center bg-secondary text-white" style="height: 200px;">Sin Imagen</div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ consola.nombre }}</h5>
+                <p class="card-text text-success fw-bold">${{ consola.precio }}</p>
+                <p class="small text-muted">Stock: {{ consola.stock }}</p>
+            </div>
+            <div class="card-footer bg-white border-0">
+                <a href="#" class="btn btn-outline-dark w-100">Ver Detalles</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No hay consolas registradas aún.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

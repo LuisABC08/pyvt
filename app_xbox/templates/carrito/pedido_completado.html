@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center py-5">
+    <div class="mb-4">
+        <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+    </div>
+    <h1 class="display-5 fw-bold">¡Gracias por tu compra!</h1>
+    <p class="lead mb-4">Tu pedido #{{ pedido.id }} ha sido confirmado y se enviará pronto.</p>
+    
+    <div class="card d-inline-block shadow-sm p-4 text-start">
+        <p><strong>Enviado a:</strong> {{ pedido.direccion_envio }}</p>
+        <p><strong>Total pagado:</strong> ${{ pedido.total }}</p>
+    </div>
+    
+    <div class="mt-5">
+        <a href="{% url 'inicio' %}" class="btn btn-outline-dark me-2">Volver al Inicio</a>
+        <a href="{% url 'mis_pedidos' %}" class="btn btn-xbox">Ver mis pedidos</a>
+    </div>
+</div>
+{% endblock %}
